@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import GameCanvas from "./board/GameCanvas.vue";
+
+import AllResearches from "./research/AllResearches.vue";
+import PacketsControl from "./PacketsControl.vue";
+import ResourceDisplay from "./ResourceDisplay.vue";
 import TopButtons from "./TopButtons.vue";
 </script>
 
 <template>
 	<GameCanvas />
 	<TopButtons />
+	<PacketsControl />
+	<ResourceDisplay />
+	<AllResearches />
 	<div class="c-game-ui" />
 </template>
 

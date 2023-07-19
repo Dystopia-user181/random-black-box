@@ -3,6 +3,9 @@
 	background: url("/images/stars-bg.png");
 	background-size: 100%;
 
+	--colour-good: #1bbb36;
+	--colour-bad: #b84b5f;
+
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;

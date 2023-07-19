@@ -7,6 +7,8 @@ import { Modals } from "@/js/ui/modals";
 
 import { deepAssign, downloadAsFile, isArray, isObject } from "@/utils";
 
+import { Researches } from "./researches";
+
 // https://github.com/microsoft/TypeScript/issues/31816#issuecomment-593069149
 type FileEventTarget = EventTarget & { files: FileList };
 type FileEvent = Event & { target: FileEventTarget };
@@ -15,15 +17,25 @@ export const Player = {
 	defaultStart(): PlayerType {
 		return {
 			energy: 0,
+			totalEnergy: 0,
+			usableEnergy: 0,
 			packets: {
 				lastFire: 0,
 				turretDirection: 0,
 			},
+			researches: (() => {
+				const x: Record<number, number> = {};
+				for (let i = 0; i < Object.keys(Researches).length; i++) {
+					x[i] = -1;
+				}
+				return x;
+			})(),
 			options: {
 				autosave: 1,
 				exportCount: 0,
 			},
 			vitalMarker: Player.storageKey,
+			lastTick: Date.now(),
 			migrations: migrations.length
 		};
 	},
@@ -33,6 +45,12 @@ export const Player = {
 		Object.assign(player, Player.defaultStart());
 		if (playerObj) {
 			this.loadAndMigrateSave(playerObj);
+		} else {
+			setTimeout(() => {
+				Modals.message.showText(`There's a mysterious black box in the middle of nowhere.
+				<br>
+				Let's shoot energy packets at it and see what happens.`);
+			}, 0);
 		}
 	},
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any

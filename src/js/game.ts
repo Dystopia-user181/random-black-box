@@ -3,19 +3,25 @@ import { LogicEvent } from "@/js/database/events";
 import { Modals } from "@/js/ui/modals";
 import { UIEvent } from "@/js/ui/events";
 
-// let lastTick = Date.now();
+import { Packets } from "./energy-packets";
+import { tickResearches } from "./researches";
+
+import { player } from "./player";
+
 
 export function gameLoop(_diff?: number) {
-	//const diff = _diff ?? (Date.now() - lastTick) / 1000;
+	const diff = _diff ?? (Date.now() - player.lastTick) / 1000;
 	if (!_diff) {
-		// lastTick = Date.now();
+		player.lastTick = Date.now();
 	}
 	LogicEvent.dispatch("GAME_TICK_BEFORE");
+	Packets.tick(diff);
+	tickResearches(diff);
 	GameUI.update();
 	LogicEvent.dispatch("GAME_TICK_AFTER");
 }
 
-window.gameLoopInterval = setInterval(() => gameLoop(), 30);
+window.gameLoopInterval = setInterval(() => gameLoop(), 16);
 
 function render() {
 	GameUI.render();

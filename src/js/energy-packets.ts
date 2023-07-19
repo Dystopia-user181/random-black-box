@@ -4,22 +4,24 @@ import { GameBoard } from "@/js/game-board";
 
 import { player } from "@/js/player";
 
-const DEFAULT_SPEED = 5, DEFAULT_LIFETIME = 10;
+const DEFAULT_SPEED = 30, DEFAULT_LIFETIME = 10;
 class Projectile extends Rectangle {
 	vx: number;
 	vy: number;
 	life = 0;
 	constructor(x: number, y: number, dir: number) {
-		super(x, y, 0, 0);
+		super(x - 0.07, y - 0.07, 0.14, 0.14);
 		this.vx = DEFAULT_SPEED * Math.cos(dir);
 		this.vy = DEFAULT_SPEED * Math.sin(dir);
 	}
 
-	move(diff: number) {
+	move(_diff: number) {
+		const diff = Math.min(_diff, 0.1);
 		this.x += this.vx * diff;
 		this.y += this.vy * diff;
 		if (this.isTouching(GameBoard.blackbox)) {
 			player.energy += 1;
+			player.totalEnergy += 1;
 			this.life = Infinity;
 		}
 		this.life += diff;
@@ -45,11 +47,12 @@ export const Packets = {
 		energyPackets = energyPackets.filter(x => x.life < DEFAULT_LIFETIME);
 	},
 	get canFire() {
-		return Date.now() - player.packets.lastFire >= 500;
+		return player.lastTick - player.packets.lastFire >= 500;
 	},
 	fire() {
 		if (!this.canFire) return;
 		energyPackets.push(new Projectile(this.currentX, this.currentY, player.packets.turretDirection));
+		player.packets.lastFire = Date.now();
 	},
 	draw(ctx: CanvasRenderingContext2D) {
 		// Draw turret path
@@ -86,10 +89,8 @@ export const Packets = {
 
 		// Draw projectiles
 		ctx.fillStyle = "#0ff";
-		ctx.beginPath();
 		for (const packet of energyPackets) {
-			ctx.arc(packet.x, packet.y, 0.1, 0, Math.PI * 2);
+			ctx.fillRect(packet.x, packet.y, packet.w, packet.h);
 		}
-		ctx.fill();
 	}
 };

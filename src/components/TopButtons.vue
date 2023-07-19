@@ -18,12 +18,12 @@ import { Modals } from "@/js/ui/modals";
 .fa-gear {
 	cursor: pointer;
 	position: absolute;
-	font-size: 25px;
+	font-size: 40px;
 	top: 10px;
 }
 
 .fa-circle-info {
-	right: 45px;
+	right: 60px;
 }
 
 .fa-gear {

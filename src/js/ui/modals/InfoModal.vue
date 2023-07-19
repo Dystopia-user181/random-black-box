@@ -9,28 +9,8 @@ import ModalWrapper from "./ModalWrapper.vue";
 		</template>
 		<br>
 		<span class="c-info__body">
-			This game was heavily inspired by
-			<a
-				href="https://ivark.github.io/AntimatterDimensions/"
-				target="_blank"
-			>
-				Antimatter Dimensions
-			</a>.
-			<br>
-			<br>
-			If you want to contribute to this game, you may visit its github page below. Joining
-			the discord for more in depth discussion of development work is also recommended.
-			<br>
-			<br>
-			Credits:<br>
-			Scarlet / Dystopia181: Main dev<br>
-			<br>
-			Helpful people:<br>
-			Myresa<br>
-			QwQe308<br>
-			Stefan R<br>
-			Mirai<br>
-			Crystalflare
+			This game was joke intended for IGJ 2023 summer due to a lack of time.<br>
+			Regardless, I hope you enjoy it.
 		</span>
 		<br>
 		<br>
@@ -41,7 +21,7 @@ import ModalWrapper from "./ModalWrapper.vue";
 			title="Discord"
 		/>
 		<a
-			href="https://github.com/Dystopia-user181/capped-at-one"
+			href="https://github.com/Dystopia-user181/random-black-box"
 			target="_blank"
 			class="fa-brands fa-github"
 			title="Contribute"
