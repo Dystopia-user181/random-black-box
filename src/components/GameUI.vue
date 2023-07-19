@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import Sidebar from "@/components/Sidebar.vue";
-
-import { Tab } from "@/js/ui/tabs";
+import GameCanvas from "./board/GameCanvas.vue";
+import TopButtons from "./TopButtons.vue";
 </script>
 
 <template>
-	<div class="c-game-ui">
-		<div class="c-main-tab">
-			<component :is="Tab('current').component" />
-		</div>
-		<Sidebar />
-	</div>
+	<GameCanvas />
+	<TopButtons />
+	<div class="c-game-ui" />
 </template>
 
 <style scoped>
@@ -21,7 +17,6 @@ import { Tab } from "@/js/ui/tabs";
 }
 
 .c-main-tab {
-	background-color: #202020;
 	overflow: auto;
 	position: relative;
 	flex: 1 1 auto;

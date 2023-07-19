@@ -5,8 +5,6 @@ import InfoModal from "./InfoModal.vue";
 import MessageModal from "./MessageModal.vue";
 import SettingsModal from "./SettingsModal.vue";
 
-import SacrificeConfirmModal from "./prestige/SacrificeConfirmModal.vue";
-
 // https://stackoverflow.com/a/73784241/17814082
 // Dear god
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -95,8 +93,6 @@ export const Modals = {
 	hardReset: new Modal(HardResetModal),
 	info: new Modal(InfoModal),
 	settings: new Modal(SettingsModal),
-
-	sacrifice: new Modal(SacrificeConfirmModal),
 
 	message: new (class extends Modal<typeof MessageModal> {
 		queue: string[];

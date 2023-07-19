@@ -1,7 +1,5 @@
 import { reactive, toRaw } from "vue";
 
-import { GlyphType } from "@/js/glyphs";
-
 import { PlayerType } from "@/js/player-type";
 
 import { migrations } from "@/js/migrations";
@@ -16,80 +14,15 @@ type FileEvent = Event & { target: FileEventTarget };
 export const Player = {
 	defaultStart(): PlayerType {
 		return {
-			antimatter: 0.1,
-			monomensions: {
-				antimatter: {
-					1: { amount: 0, bought: 0 },
-					2: { amount: 0, bought: 0 },
-					3: { amount: 0, bought: 0 },
-					4: { amount: 0, bought: 0 },
-					5: { amount: 0, bought: 0 },
-					6: { amount: 0, bought: 0 },
-					7: { amount: 0, bought: 0 },
-					8: { amount: 0, bought: 0 },
-					unlocks: 1,
-					maxUnlocks: 1,
-					timeElapsed: 0,
-					tickspeed: 0,
-					sacrifice: 0,
-					surge: {
-						monoId: 1,
-						boost: 0
-					},
-				},
-				infinity: {
-					1: { amount: 0, bought: 0 },
-					2: { amount: 0, bought: 0 },
-					3: { amount: 0, bought: 0 },
-					4: { amount: 0, bought: 0 },
-					5: { amount: 0, bought: 0 },
-					6: { amount: 0, bought: 0 },
-					7: { amount: 0, bought: 0 },
-					8: { amount: 0, bought: 0 },
-				}
-			},
-			time: {
-				reversing: false,
-				tachyonMatter: 0,
-				upgrades: 0,
-				chosenUpgrade: 0,
-				rebuyables: [0, 0, 0, 0, 0, 0],
-				rebuyablesEnabled: [true, true, true, true, true, true],
-				tachyonEngine: {
-					on: false,
-					level: 0,
-					momentum: 0,
-				}
-			},
-			auto: {
-				surge: false,
-				discard: false,
-			},
-			glyphs: {
-				glyphPower: 0,
-				unlocks: 0,
-				sacrifice: {
-					[GlyphType.power]: 0,
-					[GlyphType.time]: 0,
-					[GlyphType.infinity]: 0,
-				},
-				current: null,
-				previous: null,
-				projected: null,
-			},
-			infinity: {
-				ipProgress: 0,
-				bestIP: 0,
-				ip: 0,
-				infPow: 0,
-				upgrades: 0,
+			energy: 0,
+			packets: {
+				lastFire: 0,
+				turretDirection: 0,
 			},
 			options: {
 				autosave: 1,
 				exportCount: 0,
 			},
-			absolve: 0,
-			currentTab: "antimatter",
 			vitalMarker: Player.storageKey,
 			migrations: migrations.length
 		};
