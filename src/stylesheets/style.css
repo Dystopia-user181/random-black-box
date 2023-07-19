@@ -1,0 +1,164 @@
+:root {
+	color: #fff;
+	background-color: #242424;
+
+	--colour-antimatter: #df5050;
+	--colour-dilation: #64dd17;
+	--colour-dilation--dark: #15730c;
+	--colour-glyphs: #5151ec;
+	--colour-infinity: #b67f33;
+	--colour-good: #1bbb36;
+	--colour-bad: #b84b5f;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+}
+
+* {
+	box-sizing: border-box;
+	user-select: none;
+}
+
+a {
+	color: #9096ff;
+	text-decoration: inherit;
+	transition: text-shadow 0.5s;
+}
+
+a:hover {
+	text-shadow: 0 0 7px #9096ff;
+}
+
+input {
+	background-color: transparent;
+	color: inherit;
+	font: inherit;
+	border: none;
+	border-bottom: 1px solid;
+	border-radius: 2px;
+	outline: none;
+	font-weight: 400;
+}
+
+body {
+	margin: 0;
+}
+
+button {
+	border-radius: 8px;
+	border: none;
+	padding: 10px 15px;
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
+	color: #ffffff;
+	transition: background-color 0.2s, border 0.2s, box-shadow 0.2s;
+	cursor: pointer;
+	outline: none;
+	background-color: rgba(255, 255, 255, 0.2);
+	border: 1px solid white;
+}
+
+.c-button-good {
+	background-color: #004400;
+	border: 1px solid var(--colour-good);
+}
+
+.c-button-good:hover {
+	box-shadow: 0 0 10px 1px var(--colour-good);
+}
+
+.c-button-unspecified:hover {
+	box-shadow: 0 0 10px 1px white;
+}
+
+.disabled, button:disabled {
+	cursor: not-allowed;
+	background-color: #440000;
+	border: 1px solid var(--colour-bad);
+}
+
+.disabled:hover, button:disabled:hover {
+	box-shadow: 0 0 10px 1px var(--colour-bad);
+}
+
+.c-emphasise-text {
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+hr {
+	border: none;
+	height: 1.5px;
+	min-width: 60px;
+	background-color: #ffffff;
+}
+
+@keyframes a-opacity {
+	0% { opacity: 0; }
+	50% { opacity: 0.3; }
+	100% { opacity: 0; }
+}
+
+.c-glow-yellow,
+.c-glow-green,
+.c-tint {
+	position: relative;
+}
+
+.c-glow-yellow::before {
+	color: gold;
+}
+
+.c-glow-green::before {
+	color: lime;
+}
+
+.c-glow-yellow::after,
+.c-glow-green::after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: inherit;
+	animation: a-opacity 2s infinite;
+	pointer-events: none;
+}
+
+.c-glow-yellow::after {
+	background: gold;
+}
+
+.c-glow-green::after {
+	background: rgba(0, 128, 0, 0.6);
+}
+
+.c-darker::before {
+	color: rgb(80, 80, 80);
+}
+
+.c-tint::after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: inherit;
+	background: var(--tint-background);
+	opacity: var(--tint-opacity, 0.3);
+	pointer-events: none;
+}
+
+.c-tint--green {
+	--tint-background: #3ea23e;
+}
+
+.c-tint--red {
+	--tint-background: #a23e3e;
+}
