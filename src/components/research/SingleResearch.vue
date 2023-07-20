@@ -3,6 +3,8 @@ import { ResearchState } from "@/js/researches";
 
 import { player } from "@/js/player";
 
+import { format } from "@/utils";
+
 const { research } = defineProps<{ research: ResearchState }>();
 </script>
 
@@ -13,13 +15,19 @@ const { research } = defineProps<{ research: ResearchState }>();
 		:class="{
 			'disabled': !research.canAfford && player.researches[research.id] === -1
 		}"
-		@click="research.handlePurchase()"
+		@click="research.buy()"
 	>
 		{{ research.description }}
 		<br><br>
-		Cost: {{ research.formattedCost }}
+		<template v-if="player.researches[research.id] === -1">
+			Cost: {{ research.formattedCost }}
+		</template>
+		<template v-else>
+			Time left: {{ format((1 - research.percentageCompletion) * research.timeRequirement) }}s
+		</template>
 		<br>
 		<div
+			v-if="!research.canApply"
 			class="c-research-button__progress-bar"
 			:style="{
 				'width': `${(1 - research.percentageCompletion) * 100}%`
@@ -45,7 +53,7 @@ const { research } = defineProps<{ research: ResearchState }>();
 	background-color: var(--colour-good);
 }
 
-.c-button-good .disabled .c-research-button__progress-bar {
+.c-button-good.disabled .c-research-button__progress-bar {
 	background-color: var(--colour-bad);
 }
 </style>

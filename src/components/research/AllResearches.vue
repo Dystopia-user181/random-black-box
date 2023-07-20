@@ -19,5 +19,7 @@ import { Researches } from "@/js/researches";
 	position: absolute;
 	right: 0;
 	bottom: 0;
+	max-height: 50vh;
+	overflow-y: auto;
 }
 </style>

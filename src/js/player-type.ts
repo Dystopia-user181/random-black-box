@@ -7,6 +7,9 @@ export interface PlayerType {
 		turretDirection: number,
 	},
 	researches: Record<number, number>,
+	siphon: {
+		on: boolean,
+	},
 	migrations: number,
 	options: {
 		autosave: number,

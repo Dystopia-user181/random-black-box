@@ -31,16 +31,16 @@ export class ResearchState extends BuyableState<ResearchConfig, boolean> {
 	}
 
 	get formattedCost() {
-		return this.cost ? `${format(this.cost)} energy` : "Free";
+		return this.cost ? `${format(this.cost)} usable energy` : "Free";
 	}
 
 	get canApply() {
 		return player.researches[this.id] >= 1;
 	}
 
-	get currencyAmount() {
-		return player.usableEnergy;
-	}
+	get currencyAmount() { return player.usableEnergy; }
+
+	set currencyAmount(x) { player.usableEnergy = x; }
 
 	get effect() { return this.canApply; }
 

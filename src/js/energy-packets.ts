@@ -1,6 +1,7 @@
 import { Rectangle } from "@/js/rectangle";
 
 import { GameBoard } from "@/js/game-board";
+import { Researches } from "./researches";
 
 import { player } from "@/js/player";
 
@@ -35,10 +36,10 @@ export const Packets = {
 		return 8;
 	},
 	get currentX() {
-		return this.radius * Math.cos(Date.now() / 4000);
+		return this.radius * Math.cos(Date.now() / 6000);
 	},
 	get currentY() {
-		return this.radius * Math.sin(Date.now() / 4000);
+		return this.radius * Math.sin(Date.now() / 6000);
 	},
 	tick(diff: number) {
 		for (const packet of energyPackets) {
@@ -52,6 +53,10 @@ export const Packets = {
 	fire() {
 		if (!this.canFire) return;
 		energyPackets.push(new Projectile(this.currentX, this.currentY, player.packets.turretDirection));
+		if (Researches.fireMore.canApply) setTimeout(
+			() => energyPackets.push(new Projectile(this.currentX, this.currentY, player.packets.turretDirection)),
+			100
+		);
 		player.packets.lastFire = Date.now();
 	},
 	draw(ctx: CanvasRenderingContext2D) {
@@ -62,7 +67,20 @@ export const Packets = {
 		ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
 		ctx.stroke();
 
-
+		// Laser vision
+		if (Researches.fireVision.canApply) {
+			// Draw cannon
+			ctx.strokeStyle = "#f228";
+			ctx.lineCap = "round";
+			ctx.lineWidth = 0.1;
+			ctx.beginPath();
+			ctx.moveTo(this.currentX, this.currentY);
+			ctx.lineTo(
+				this.currentX + 10 * Math.cos(player.packets.turretDirection),
+				this.currentY + 10 * Math.sin(player.packets.turretDirection)
+			);
+			ctx.stroke();
+		}
 		// Draw cannon
 		ctx.strokeStyle = "#699";
 		ctx.lineCap = "square";

@@ -30,6 +30,9 @@ export const Player = {
 				}
 				return x;
 			})(),
+			siphon: {
+				on: false,
+			},
 			options: {
 				autosave: 1,
 				exportCount: 0,
@@ -141,6 +144,10 @@ export const Player = {
 };
 
 export const player = reactive<PlayerType>({} as PlayerType);
+
+
+// @ts-ignore
+window.p = player;
 
 setTimeout(() => Player.loadSave(), 0);
 

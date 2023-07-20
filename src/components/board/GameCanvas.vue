@@ -7,6 +7,7 @@ import { ViewMoveHandler } from "@/utils/view-move-handler";
 
 import { GameBoard } from "@/js/game-board";
 import { Packets } from "@/js/energy-packets";
+import { Siphon } from "@/js/siphon";
 
 const canvas = ref<null | HTMLCanvasElement>(null);
 let ctx: null | CanvasRenderingContext2D = null;
@@ -29,6 +30,7 @@ onMount({
 		if (!canvas.value) throw "Error encountered";
 		ctx = canvas.value.getContext("2d");
 		viewHandler.mount(canvas.value);
+		GameBoard.mountOnCanvas(canvas.value, ctx ?? new CanvasRenderingContext2D());
 	},
 	render() {
 		if (!ctx || !canvas.value) return;
@@ -41,6 +43,7 @@ onMount({
 		ctx.fillStyle = "black";
 		ctx.fillRect(GameBoard.blackbox.x, GameBoard.blackbox.y, GameBoard.blackbox.w, GameBoard.blackbox.h);
 		Packets.draw(ctx);
+		Siphon.draw(ctx);
 		rootElement.style.backgroundPositionX = `${(-view.offsetX + innerWidth / 2)}px`;
 		rootElement.style.backgroundPositionY = `${(-view.offsetY + innerHeight / 2)}px`;
 		rootElement.style.backgroundSize = `${(view.zoom + 200) / 2.2}%`;
