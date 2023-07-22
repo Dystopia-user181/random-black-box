@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Packets } from "@/js/energy-packets";
 import { player } from "@/js/player";
+
+import { format } from "@/utils";
 </script>
 
 <template>
@@ -11,19 +13,22 @@ import { player } from "@/js/player";
 			@click="Packets.fire()"
 		>
 			Fire
+			<template v-if="Packets.isLaserActive">
+				({{ format((Packets.laserTime - player.lastTick + player.packets.lastFire) / 1000) }}s)
+			</template>
 		</button>
 		<br>
-		<button
-			class="c-rotate-button c-button-unspecified"
-			@click="player.packets.turretDirection += Math.PI / 8"
-		>
-			↻
-		</button>
 		<button
 			class="c-rotate-button c-button-unspecified"
 			@click="player.packets.turretDirection -= Math.PI / 8"
 		>
 			↺
+		</button>
+		<button
+			class="c-rotate-button c-button-unspecified"
+			@click="player.packets.turretDirection += Math.PI / 8"
+		>
+			↻
 		</button>
 	</div>
 </template>
@@ -39,8 +44,8 @@ import { player } from "@/js/player";
 
 .c-fire-button {
 	width: 120px;
-	height: 50px;
-	font-size: 20px;
+	height: 70px;
+	font-size: 16px;
 	margin: 5px;
 }
 

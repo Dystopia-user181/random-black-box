@@ -7,6 +7,7 @@ interface ResearchConfig {
 	description: string,
 	cost: number,
 	time: number,
+	onAttain?: () => void,
 	isUnlocked?: boolean | (() => boolean)
 }
 export class ResearchState extends BuyableState<ResearchConfig, boolean> {
@@ -50,5 +51,6 @@ export class ResearchState extends BuyableState<ResearchConfig, boolean> {
 
 	handlePurchase() {
 		player.researches[this.id] = 0;
+		if (this.config.onAttain) this.config.onAttain();
 	}
 }

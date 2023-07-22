@@ -103,7 +103,7 @@
 		"vue/no-v-html": "off",
 		"vue/no-multiple-template-root": "off",
 		"vue/no-setup-props-destructure": "off",
-		"no-empty-function": "error",
+		"no-empty-function": "off",
 		"no-eval": "error",
 		"no-extra-bind": "error",
 		"no-extra-label": "error",

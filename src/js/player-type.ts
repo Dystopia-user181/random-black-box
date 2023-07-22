@@ -1,3 +1,5 @@
+import { LaserPlayerData } from "./laser-builder";
+
 export interface PlayerType {
 	energy: number,
 	totalEnergy: number,
@@ -9,7 +11,12 @@ export interface PlayerType {
 	researches: Record<number, number>,
 	siphon: {
 		on: boolean,
+		upgrades: Record<number, number>,
 	},
+	lasers: {
+		isBuilding: boolean,
+		list: LaserPlayerData[],
+	}
 	migrations: number,
 	options: {
 		autosave: number,

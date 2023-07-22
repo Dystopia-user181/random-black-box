@@ -8,6 +8,7 @@ import { Modals } from "@/js/ui/modals";
 import { deepAssign, downloadAsFile, isArray, isObject } from "@/utils";
 
 import { Researches } from "./researches";
+import { SiphonUpgrades } from "./siphon";
 
 // https://github.com/microsoft/TypeScript/issues/31816#issuecomment-593069149
 type FileEventTarget = EventTarget & { files: FileList };
@@ -32,10 +33,21 @@ export const Player = {
 			})(),
 			siphon: {
 				on: false,
+				upgrades: (() => {
+					const x: Record<number, number> = {};
+					for (let i = 0; i < Object.keys(SiphonUpgrades).length; i++) {
+						x[i] = 0;
+					}
+					return x;
+				})(),
 			},
 			options: {
 				autosave: 1,
 				exportCount: 0,
+			},
+			lasers: {
+				isBuilding: false,
+				list: [],
 			},
 			vitalMarker: Player.storageKey,
 			lastTick: Date.now(),

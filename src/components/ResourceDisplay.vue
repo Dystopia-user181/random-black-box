@@ -2,17 +2,22 @@
 import { format } from "@/utils";
 import { player } from "@/js/player";
 
+import { Heat } from "@/js/heat";
 import { Researches } from "@/js/researches";
 </script>
 
 <template>
 	<div class="c-resource-display">
-		Thermal Energy of box: {{ format(player.energy) }}J
+		Thermal Energy of box: {{ format(player.energy) }} J
 		<br>
-		Mass of box: {{ format(1 + player.energy / 299792458 / 299792458) }}kg
+		Mass of box: {{ format(player.energy / 299792458 / 299792458) }} kg
 		<template v-if="Researches.siphon.canApply">
 			<br>
-			Usable Energy: {{ format(player.usableEnergy) }}J
+			Heat capacity: {{ format(Heat.heatCapacity) }} J/K
+			<br>
+			Temperature of box: {{ format(Heat.temperature) }} K
+			<br>
+			Usable Energy: {{ format(player.usableEnergy) }} J
 		</template>
 	</div>
 </template>
@@ -25,6 +30,6 @@ import { Researches } from "@/js/researches";
 	padding: 10px;
 	pointer-events: none;
 	z-index: 1;
-	font-size: 25px;
+	font-size: 22px;
 }
 </style>
