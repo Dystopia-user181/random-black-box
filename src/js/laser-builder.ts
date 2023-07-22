@@ -1,8 +1,13 @@
 import { GameBoard } from "./game-board";
+import { Researches } from "./researches";
 
 import { Rectangle } from "./rectangle";
 
 import { player } from "./player";
+
+import { WindowProperties } from "@/components/mixins";
+
+import { format } from "@/utils";
 
 export interface LaserPlayerData {
 	x: number,
@@ -42,7 +47,7 @@ export class LaserState {
 		return true;
 	}
 
-	get power() { return 20; }
+	get power() { return 50; }
 
 	tick(diff: number) {
 		if (this.isCollidingBlackBox) player.energy += this.power * diff;
@@ -97,6 +102,16 @@ export class LaserState {
 		ctx.arc(this.playerState.x, this.playerState.y, 0.5, 0, Math.PI * 2);
 		ctx.fill();
 		ctx.stroke();
+
+		ctx.textAlign = "center";
+		ctx.textBaseline = "top";
+		ctx.fillStyle = "#fff";
+		ctx.font = "0.5px Iosevka Term SS08 Web";
+		ctx.fillText(
+			`Power: ${format(this.power)} W`,
+			this.boundingBox.x + this.boundingBox.w / 2,
+			this.boundingBox.y + this.boundingBox.h + 0.25
+		);
 	}
 }
 
@@ -107,30 +122,93 @@ export function initLasers() {
 }
 
 export const LaserBuilder = {
+	get isUnlocked() {
+		return Researches.buildLasers.effect;
+	},
 	get cost() {
-		return 40 * Math.pow(2, Math.pow(player.lasers.list.length, 1.6));
+		return 30 * Math.pow(2, Math.pow(player.lasers.list.length, 1.4));
 	},
 	get canAfford() {
 		return player.usableEnergy >= this.cost;
 	},
+	isDeleting: false,
 	virtualLaser: null as null | LaserPlayerData,
 	startBuild() {
-		if (!this.canAfford) return;
+		if (!this.canAfford || player.lasers.isBuilding) return;
+		this.isDeleting = false;
 		player.usableEnergy -= this.cost;
 		player.lasers.isBuilding = true;
 	},
 	stopBuild() {
+		if (!player.lasers.isBuilding) return;
 		player.lasers.isBuilding = false;
 		player.usableEnergy += this.cost;
 	},
 	refund(laser: LaserState) {
-		player.lasers.list.splice(player.lasers.list.indexOf(laser.playerState));
-		laserList.splice(laserList.indexOf(laser));
+		this.stopBuild();
+		console.log(player.lasers.list.indexOf(laser.playerState));
+		console.log(laserList.indexOf(laser));
+		player.lasers.list.splice(player.lasers.list.indexOf(laser.playerState), 1);
+		laserList.splice(laserList.indexOf(laser), 1);
+		player.usableEnergy += this.cost * 0.7;
+	},
+	startRefund() {
+		player.lasers.isBuilding = false;
+		this.isDeleting = true;
+	},
+	get currentPlaceDir() {
+		return (Date.now() / 2000) % (2 * Math.PI);
+	},
+	place() {
+		const x = WindowProperties.canvasMouseX.value;
+		const y = WindowProperties.canvasMouseY.value;
+		player.lasers.list.push({ x, y, dir: this.currentPlaceDir, level: 0 });
+		laserList.push(new LaserState(player.lasers.list[player.lasers.list.length - 1]));
+		player.lasers.isBuilding = false;
 	},
 	tick(diff: number) {
 		for (const laser of laserList) laser.tick(diff);
 	},
 	draw(ctx: CanvasRenderingContext2D) {
 		for (const laser of laserList) laser.draw(ctx);
+		if (player.lasers.isBuilding) {
+			const x = WindowProperties.canvasMouseX.value;
+			const y = WindowProperties.canvasMouseY.value;
+			ctx.strokeStyle = "#7778";
+			ctx.fillStyle = "#aaa8";
+			ctx.lineWidth = 0.08;
+			ctx.fillRect(x - 1, y - 1, 2, 2);
+			ctx.strokeRect(x - 1, y - 1, 2, 2);
+
+			// Draw cannon
+			ctx.strokeStyle = "#222";
+			ctx.lineCap = "square";
+			ctx.lineWidth = 0.4;
+			ctx.beginPath();
+			ctx.moveTo(x, y);
+			ctx.lineTo(
+				x + 0.8 * Math.cos(this.currentPlaceDir),
+				y + 0.8 * Math.sin(this.currentPlaceDir)
+			);
+			ctx.stroke();
+		}
+		if (this.isDeleting) {
+			void Promise.resolve().then(() => {
+				ctx.fillStyle = "#f005";
+				ctx.fillRect(-300, -300, 600, 600);
+			});
+		}
 	}
 };
+
+GameBoard.addClickListener(new Rectangle(-300, -300, 600, 600), (x, y) => {
+	if (player.lasers.isBuilding) LaserBuilder.place();
+	else if (LaserBuilder.isDeleting) {
+		for (const laser of laserList) {
+			if (laser.boundingBox.isTouching(new Rectangle(x, y, 0, 0))) {
+				LaserBuilder.refund(laser);
+				return;
+			}
+		}
+	}
+});

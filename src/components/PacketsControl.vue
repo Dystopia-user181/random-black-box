@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { LaserBuilder } from "@/js/laser-builder";
 import { Packets } from "@/js/energy-packets";
 import { player } from "@/js/player";
 
@@ -7,6 +8,33 @@ import { format } from "@/utils";
 
 <template>
 	<div class="c-packets-control">
+		<template v-if="LaserBuilder.isUnlocked">
+			<button
+				class="c-laser-button"
+				:class="LaserBuilder.canAfford || player.lasers.isBuilding ? 'c-button-good' : 'disabled'"
+				@click="player.lasers.isBuilding ? LaserBuilder.stopBuild() : LaserBuilder.startBuild()"
+			>
+				<template v-if="player.lasers.isBuilding">
+					Stop placing laser
+				</template>
+				<template v-else>
+					Place laser.<br>Cost: {{ format(LaserBuilder.cost) }} J usable energy
+				</template>
+			</button>
+			<br>
+			<button
+				class="c-laser-button c-button-unspecified"
+				@click="LaserBuilder.isDeleting ? LaserBuilder.isDeleting = false : LaserBuilder.startRefund()"
+			>
+				<template v-if="LaserBuilder.isDeleting">
+					Stop deleting lasers
+				</template>
+				<template v-else>
+					Delete lasers
+				</template>
+			</button>
+			<br>
+		</template>
 		<button
 			class="c-fire-button"
 			:class="Packets.canFire ? 'c-button-unspecified' : 'disabled'"
@@ -40,6 +68,13 @@ import { format } from "@/utils";
 	left: 0;
 	padding: 10px;
 	z-index: 1;
+}
+
+.c-laser-button {
+	width: 200px;
+	height: 70px;
+	font-size: 14px;
+	margin: 5px;
 }
 
 .c-fire-button {

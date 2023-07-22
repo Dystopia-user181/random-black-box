@@ -6,6 +6,7 @@ import { onMount } from "@/components/mixins";
 import { ViewMoveHandler } from "@/utils/view-move-handler";
 
 import { GameBoard } from "@/js/game-board";
+import { LaserBuilder } from "@/js/laser-builder";
 import { Packets } from "@/js/energy-packets";
 import { Siphon } from "@/js/siphon";
 
@@ -43,6 +44,7 @@ onMount({
 		ctx.fillStyle = "black";
 		ctx.fillRect(GameBoard.blackbox.x, GameBoard.blackbox.y, GameBoard.blackbox.w, GameBoard.blackbox.h);
 		Packets.draw(ctx);
+		LaserBuilder.draw(ctx);
 		Siphon.draw(ctx);
 		rootElement.style.backgroundPositionX = `${(-view.offsetX + innerWidth / 2)}px`;
 		rootElement.style.backgroundPositionY = `${(-view.offsetY + innerHeight / 2)}px`;

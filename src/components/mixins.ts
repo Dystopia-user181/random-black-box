@@ -40,7 +40,9 @@ export function onMount(options: MountOptions = {}) {
 
 export const WindowProperties = {
 	width: ref(innerWidth),
-	height: ref(innerHeight)
+	height: ref(innerHeight),
+	canvasMouseX: ref(0),
+	canvasMouseY: ref(0),
 };
 
 addEventListener("resize", () => {

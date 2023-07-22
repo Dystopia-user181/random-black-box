@@ -7,6 +7,7 @@ import { Modals } from "@/js/ui/modals";
 
 import { deepAssign, downloadAsFile, isArray, isObject } from "@/utils";
 
+import { initLasers } from "./laser-builder";
 import { Researches } from "./researches";
 import { SiphonUpgrades } from "./siphon";
 
@@ -67,6 +68,7 @@ export const Player = {
 				Let's shoot energy packets at it and see what happens.`);
 			}, 0);
 		}
+		initLasers();
 	},
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	loadAndMigrateSave(playerObj: any) {

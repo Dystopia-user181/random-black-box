@@ -3,6 +3,7 @@ import { LogicEvent } from "@/js/database/events";
 import { Modals } from "@/js/ui/modals";
 import { UIEvent } from "@/js/ui/events";
 
+import { LaserBuilder } from "./laser-builder";
 import { Packets } from "./energy-packets";
 import { Siphon } from "./siphon";
 import { tickResearches } from "./researches";
@@ -17,6 +18,7 @@ export function gameLoop(_diff?: number) {
 	}
 	LogicEvent.dispatch("GAME_TICK_BEFORE");
 	Packets.tick(diff);
+	LaserBuilder.tick(diff);
 	tickResearches(diff);
 	Siphon.tick(diff);
 	GameUI.update();

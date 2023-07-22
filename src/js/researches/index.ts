@@ -59,7 +59,7 @@ export const Researches = {
 	}),
 	buildLasers: new ResearchState({
 		id: 7,
-		description: "You can mount your own lasers. The game is not implemented past this point. Congrats for beating it I guess",
+		description: `You can mount your own lasers`,
 		cost: 100,
 		time: 60,
 		isUnlocked: () => Researches.fireLaser.canApply

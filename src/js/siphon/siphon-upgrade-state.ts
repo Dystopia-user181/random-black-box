@@ -44,6 +44,5 @@ export class SiphonUpgradeState<E = number> extends RebuyableState<SiphonUpgrade
 
 	handlePurchase() {
 		this.amount++;
-		player.energy = 0;
 	}
 }

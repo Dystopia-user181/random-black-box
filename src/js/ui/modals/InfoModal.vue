@@ -10,6 +10,7 @@ import ModalWrapper from "./ModalWrapper.vue";
 		<br>
 		<span class="c-info__body">
 			This game was joke intended for IGJ 2023 summer due to a lack of time.<br>
+			There is completely 0 adherence to the theme other than the energy part.<br>
 			Regardless, I hope you enjoy it.
 		</span>
 		<br>
