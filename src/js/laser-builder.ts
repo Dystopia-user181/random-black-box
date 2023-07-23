@@ -126,7 +126,7 @@ export const LaserBuilder = {
 		return Researches.buildLasers.effect;
 	},
 	get cost() {
-		return 30 * Math.pow(2, Math.pow(player.lasers.list.length, 1.4));
+		return 30 * Math.pow(2, Math.pow(player.lasers.list.length, 1.1));
 	},
 	get canAfford() {
 		return player.usableEnergy >= this.cost;
@@ -146,8 +146,6 @@ export const LaserBuilder = {
 	},
 	refund(laser: LaserState) {
 		this.stopBuild();
-		console.log(player.lasers.list.indexOf(laser.playerState));
-		console.log(laserList.indexOf(laser));
 		player.lasers.list.splice(player.lasers.list.indexOf(laser.playerState), 1);
 		laserList.splice(laserList.indexOf(laser), 1);
 		player.usableEnergy += this.cost * 0.7;
@@ -159,7 +157,16 @@ export const LaserBuilder = {
 	get currentPlaceDir() {
 		return (Date.now() / 2000) % (2 * Math.PI);
 	},
+	get canPlace() {
+		const x = WindowProperties.canvasMouseX.value;
+		const y = WindowProperties.canvasMouseY.value;
+		for (const obj of [...laserList.map(x => x.boundingBox), GameBoard.blackbox]) {
+			if (new LaserState({ x, y, dir: this.currentPlaceDir, level: 0 }).boundingBox.isTouching(obj)) return false;
+		}
+		return true;
+	},
 	place() {
+		if (!this.canPlace) return;
 		const x = WindowProperties.canvasMouseX.value;
 		const y = WindowProperties.canvasMouseY.value;
 		player.lasers.list.push({ x, y, dir: this.currentPlaceDir, level: 0 });
@@ -174,14 +181,14 @@ export const LaserBuilder = {
 		if (player.lasers.isBuilding) {
 			const x = WindowProperties.canvasMouseX.value;
 			const y = WindowProperties.canvasMouseY.value;
-			ctx.strokeStyle = "#7778";
-			ctx.fillStyle = "#aaa8";
+			ctx.strokeStyle = this.canPlace ? "#7778" : "#a448";
+			ctx.fillStyle = this.canPlace ? "#aaa8" : "#f778";
 			ctx.lineWidth = 0.08;
 			ctx.fillRect(x - 1, y - 1, 2, 2);
 			ctx.strokeRect(x - 1, y - 1, 2, 2);
 
 			// Draw cannon
-			ctx.strokeStyle = "#222";
+			ctx.strokeStyle = this.canPlace ? "#333" : "#622";
 			ctx.lineCap = "square";
 			ctx.lineWidth = 0.4;
 			ctx.beginPath();
